@@ -21,7 +21,7 @@ export interface AuthState {
   success: string;
 }
 
-export interface SignUpDate {
+export interface SignUpData {
   firstName: string;
   email: string;
   password: string;
@@ -37,3 +37,34 @@ interface SetUserAction {
   type: typeof SET_USER;
   payload: User;
 }
+
+interface SetLoadingAction {
+  type: typeof SET_LOADING;
+  payload: boolean;
+}
+
+interface SignOutAction {
+  type: typeof SIGN_OUT;
+}
+
+interface SetErrorAction {
+  type: typeof SET_ERROR;
+  payload: string;
+}
+
+interface NeedVerification {
+  type: typeof NEED_VERIFICATION;
+}
+
+interface SetSuccessAction {
+  type: typeof SET_SUCCESS;
+  payload: string;
+}
+
+export type AuthAction =
+  | SetUserAction
+  | SetLoadingAction
+  | SetErrorAction
+  | SetSuccessAction
+  | NeedVerification
+  | SignOutAction;
