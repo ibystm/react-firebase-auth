@@ -2,7 +2,7 @@ import React, { ButtonHTMLAttributes, FC } from 'react';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   text: string;
-  className: string;
+  className?: string;
 }
 
 const Button: FC<ButtonProps> = ({
