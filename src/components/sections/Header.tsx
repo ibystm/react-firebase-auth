@@ -5,12 +5,20 @@ import { signOut } from '../../store/actions/authActions';
 import Button from '../UI/Button';
 import { RootState } from '../../store';
 
+const buttonStyle = {
+  margin: '5px',
+};
+
 const Header: FC = () => {
   const history = useHistory();
   const dispatch = useDispatch();
-  const logoutClickHandler = useCallback(() => dispatch(signOut()), []);
-  const signUpClickHandler = useCallback(() => history.push('/signup'), []);
-  const signInClickHandler = useCallback(() => history.push('/signin'), []);
+  const logoutClickHandler = useCallback(() => dispatch(signOut()), [dispatch]);
+  const signUpClickHandler = useCallback(() => history.push('/signup'), [
+    history,
+  ]);
+  const signInClickHandler = useCallback(() => history.push('/signin'), [
+    history,
+  ]);
   const { authenticated } = useSelector((state: RootState) => state.auth);
 
   return (
@@ -23,6 +31,7 @@ const Header: FC = () => {
             AppName
           </Link>
         </div>
+
         <div className="navbar-end">
           <div className="navbar-items">
             {!authenticated ? (
@@ -30,7 +39,7 @@ const Header: FC = () => {
                 <Button
                   text="Sign Up"
                   onClick={signUpClickHandler}
-                  className="is-primary"
+                  className="is-primary primary-button"
                 />
                 <Button text="Sign In" onClick={signInClickHandler} />
               </div>

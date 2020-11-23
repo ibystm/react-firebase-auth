@@ -5,7 +5,6 @@ import {
   sendPasswordResetEmail,
   setError,
   setSuccess,
-  signIn,
 } from '../../store/actions/authActions';
 import Input from '../UI/input';
 import Message from '../UI/Message';
@@ -26,7 +25,7 @@ const ForgotPassword: FC = () => {
         dispatch(setSuccess(''));
       }
     };
-  }, [error, dispatch]);
+  }, [error, dispatch, success]);
 
   const submitHandler = async (e: FormEvent) => {
     e.preventDefault();
@@ -60,7 +59,3 @@ const ForgotPassword: FC = () => {
 };
 
 export default ForgotPassword;
-
-// useEffect クリーンアップ処理について
-// useDispatchについて
-// e.preventDefault()について

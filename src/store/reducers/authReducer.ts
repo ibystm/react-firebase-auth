@@ -41,7 +41,7 @@ export default (state = intialState, action: AuthAction) => {
     case SET_ERROR:
       return {
         ...state,
-        error: action.palyload,
+        error: action.payload,
       };
     case NEED_VERIFICATION:
       return {
