@@ -23,8 +23,6 @@ const SignIn: FC = () => {
 
   useEffect(() => {
     return () => {
-      console.log('useEffectの中');
-
       if (error) {
         dispatch(setError(''));
       }
