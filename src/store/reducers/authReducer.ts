@@ -9,7 +9,7 @@ import {
   SET_SUCCESS,
 } from '../types';
 
-const intialState: AuthState = {
+const initialState: AuthState = {
   user: null,
   authenticated: false,
   loading: false,
@@ -18,7 +18,7 @@ const intialState: AuthState = {
   success: '',
 };
 
-export default (state = intialState, action: AuthAction) => {
+export default (state = initialState, action: AuthAction) => {
   switch (action.type) {
     case SET_USER:
       return {

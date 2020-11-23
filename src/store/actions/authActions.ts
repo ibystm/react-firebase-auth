@@ -27,6 +27,7 @@ export const signUp = (
         const userData: User = {
           email: data.email,
           firstName: data.firstName,
+          lastName: data.lastName,
           id: res.user.uid,
           createdAt: firebase.firestore.FieldValue.serverTimestamp(),
         };
@@ -85,8 +86,6 @@ export const setLoading = (
     });
   };
 };
-
-// Log in
 
 export const signIn = (
   data: SignInData,

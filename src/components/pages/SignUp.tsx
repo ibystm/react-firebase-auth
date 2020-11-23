@@ -1,4 +1,11 @@
-import React, { FC, FormEvent, useEffect, useState } from 'react';
+import React, {
+  ChangeEvent,
+  FC,
+  FormEvent,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store';
 import { setError, signUp } from '../../store/actions/authActions';
@@ -26,8 +33,35 @@ const SignUp: FC = () => {
   const submitHandler = (e: FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    dispatch(signUp({ email, password, firstName }, () => setLoading(false)));
+    dispatch(
+      signUp({ email, password, firstName, lastName }, () => setLoading(false))
+    );
   };
+
+  const onChangeFirstName = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      setFirstName(e.currentTarget.value);
+    },
+    [setFirstName]
+  );
+
+  const onChangeLastName = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    setLastName(e.currentTarget.value);
+  }, []);
+
+  const onChangeEmail = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      setEmail(e.currentTarget.value);
+    },
+    [setEmail]
+  );
+
+  const onChangePassword = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      setPassword(e.currentTarget.value);
+    },
+    [setFirstName]
+  );
 
   return (
     <section className="className">
@@ -38,21 +72,28 @@ const SignUp: FC = () => {
           <Input
             name="firstName"
             value={firstName}
-            onChange={(e) => setFirstName(e.currentTarget.value)}
+            onChange={onChangeFirstName}
             placeholder="First name"
             label="First name"
           />
           <Input
+            name="lastName"
+            value={lastName}
+            onChange={onChangeLastName}
+            placeholder="Last name"
+            label="Last name"
+          />
+          <Input
             name="email"
             value={email}
-            onChange={(e) => setEmail(e.currentTarget.value)}
+            onChange={onChangeEmail}
             placeholder="Email address"
             label="Email address"
           />
           <Input
             name="password"
             value={password}
-            onChange={(e) => setPassword(e.currentTarget.value)}
+            onChange={onChangePassword}
             placeholder="Password"
             label="Password"
           />
@@ -68,7 +109,3 @@ const SignUp: FC = () => {
 };
 
 export default SignUp;
-
-// useEffect クリーンアップ処理について
-// useDispatchについて
-// e.preventDefault()について

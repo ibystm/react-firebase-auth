@@ -22,7 +22,9 @@ const DashBoard: FC = () => {
         {needVerification && (
           <Message type="success" msg="please verify your email address ." />
         )}
-        <h1 className="is-size-1">Welcome {user?.firstName}</h1>
+        <h1 className="is-size-1">
+          Welcome {user?.firstName} {user?.lastName}
+        </h1>
       </div>
     </section>
   );

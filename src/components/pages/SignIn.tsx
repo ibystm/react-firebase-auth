@@ -1,4 +1,11 @@
-import React, { FC, FormEvent, useEffect, useState } from 'react';
+import React, {
+  ChangeEvent,
+  FC,
+  FormEvent,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store';
 import { setError, signIn } from '../../store/actions/authActions';
@@ -16,6 +23,8 @@ const SignIn: FC = () => {
 
   useEffect(() => {
     return () => {
+      console.log('useEffectの中');
+
       if (error) {
         dispatch(setError(''));
       }
@@ -28,23 +37,37 @@ const SignIn: FC = () => {
     dispatch(signIn({ email, password }, () => setLoading(false)));
   };
 
+  const onChangeEmail = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      setEmail(e.currentTarget.value);
+    },
+    [setEmail]
+  );
+
+  const onChangePassword = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      setPassword(e.currentTarget.value);
+    },
+    [setPassword]
+  );
+
   return (
     <section className="className">
       <div className="container">
-        <h2 className="has-text-centered is-size-2 mb-3">SignUp</h2>
+        <h2 className="has-text-centered is-size-2 mb-3">Sign In</h2>
         <form className="form" onSubmit={submitHandler}>
           {error && <Message msg={error} type="danger" />}
           <Input
             name="email"
             value={email}
-            onChange={(e) => setEmail(e.currentTarget.value)}
+            onChange={onChangeEmail}
             placeholder="Email address"
             label="Email address"
           />
           <Input
             name="password"
             value={password}
-            onChange={(e) => setPassword(e.currentTarget.value)}
+            onChange={onChangePassword}
             placeholder="Password"
             label="Password"
           />
