@@ -103,6 +103,12 @@ const SignUp: FC = () => {
             disabled={loading}
           />
         </form>
+        <div className="is-flex is-flex-direction-row is-justify-content-center mt-6">
+          <button className="button is-large auto mr-6">
+            facebookでログイン
+          </button>
+          <button className="button is-large auto">googleでログイン</button>
+        </div>
       </div>
     </section>
   );
