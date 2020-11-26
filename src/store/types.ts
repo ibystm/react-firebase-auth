@@ -8,7 +8,7 @@ export const SET_SUCCESS = 'SET_SUCCESS';
 export interface User {
   firstName: string;
   lastName: string;
-  email: string;
+  email?: string;
   id: string;
   createdAt: any;
 }

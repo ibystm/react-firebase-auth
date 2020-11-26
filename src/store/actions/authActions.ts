@@ -56,7 +56,37 @@ export const signUp = (
   };
 };
 
-const signUpByFacebook;
+export const signUpByGoogle = (
+  onError: () => void
+): ThunkAction<void, RootState, null, AuthAction> => {
+  return async (dispatch) => {
+    try {
+      // Googleプロバイダオブジェクトのインスタンスを立てる
+      const provider = new firebase.auth.GoogleAuthProvider();
+      firebase.auth().useDeviceLanguage();
+      await firebase
+        .auth()
+        .signInWithPopup(provider)
+        .then((res) => {
+          console.log('####res: ', res);
+          const user = res.user;
+          console.log('######user: ', user);
+          if (res.user) {
+            const userData: User = {
+              firstName: '',
+              lastName: '',
+              id: res.user.uid,
+              createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+            };
+            dispatch({ type: SET_USER, payload: userData });
+          }
+        });
+    } catch (e) {
+      console.log('message', e.message);
+      console.log('code', e.code);
+    }
+  };
+};
 
 export const getUserById = (
   id: string

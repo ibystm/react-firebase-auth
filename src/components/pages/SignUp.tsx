@@ -8,7 +8,11 @@ import React, {
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store';
-import { setError, signUp } from '../../store/actions/authActions';
+import {
+  setError,
+  signUp,
+  signUpByGoogle,
+} from '../../store/actions/authActions';
 import Input from '../UI/input';
 import Message from '../UI/Message';
 import Button from '../UI/Button';
@@ -31,7 +35,7 @@ const SignUp: FC = () => {
     };
   }, [error, dispatch]);
 
-  const signUp = (e: FormEvent) => {
+  const onClickSubmit = (e: FormEvent) => {
     e.preventDefault();
     setLoading(true);
     dispatch(
@@ -39,25 +43,25 @@ const SignUp: FC = () => {
     );
   };
 
-  const signUpByFacebook = useCallback(
+  const onClickGoogleSignUp = useCallback(
     (e: FormEvent) => {
       e.preventDefault();
       setLoading(true);
       // dispatch
-      dispatch();
+      dispatch(signUpByGoogle(() => setLoading(false)));
     },
     [setLoading, dispatch]
   );
 
-  const signUpByGoogle = useCallback(
-    (e: FormEvent) => {
-      e.preventDefault();
-      setLoading(true);
-      // dispatch
-      dispatch();
-    },
-    [setLoading, dispatch]
-  );
+  // const signUpByGoogle = useCallback(
+  //   (e: FormEvent) => {
+  //     e.preventDefault();
+  //     setLoading(true);
+  //     // dispatch
+  //     dispatch();
+  //   },
+  //   [setLoading, dispatch]
+  // );
 
   const onChangeFirstName = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
@@ -88,7 +92,7 @@ const SignUp: FC = () => {
     <section className="className">
       <div className="container">
         <h2 className="has-text-centered is-size-2 mb-3">SignUp</h2>
-        <form className="form" onSubmit={signUp}>
+        <form className="form" onSubmit={onClickSubmit}>
           {error && <Message msg={error} type="danger" />}
           <Input
             name="firstName"
@@ -127,12 +131,14 @@ const SignUp: FC = () => {
         <div className="is-flex is-flex-direction-row is-justify-content-center mt-6">
           {/* facebook ログイン実装 */}
           <button
-            onClick={signUpByFacebook}
+            // onClick={signUpByFacebook}
             className="button is-large auto mr-6">
             facebookでログイン
           </button>
           {/* googleログイン実装 */}
-          <button onClick={signUpByGoogle} className="button is-large auto">
+          <button
+            onClick={onClickGoogleSignUp}
+            className="button is-large auto">
             googleでログイン
           </button>
         </div>
