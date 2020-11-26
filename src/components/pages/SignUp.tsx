@@ -12,6 +12,7 @@ import { setError, signUp } from '../../store/actions/authActions';
 import Input from '../UI/input';
 import Message from '../UI/Message';
 import Button from '../UI/Button';
+import { sign } from 'crypto';
 
 const SignUp: FC = () => {
   const [firstName, setFirstName] = useState<string>('');
@@ -30,13 +31,33 @@ const SignUp: FC = () => {
     };
   }, [error, dispatch]);
 
-  const submitHandler = (e: FormEvent) => {
+  const signUp = (e: FormEvent) => {
     e.preventDefault();
     setLoading(true);
     dispatch(
       signUp({ email, password, firstName, lastName }, () => setLoading(false))
     );
   };
+
+  const signUpByFacebook = useCallback(
+    (e: FormEvent) => {
+      e.preventDefault();
+      setLoading(true);
+      // dispatch
+      dispatch();
+    },
+    [setLoading, dispatch]
+  );
+
+  const signUpByGoogle = useCallback(
+    (e: FormEvent) => {
+      e.preventDefault();
+      setLoading(true);
+      // dispatch
+      dispatch();
+    },
+    [setLoading, dispatch]
+  );
 
   const onChangeFirstName = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
@@ -67,7 +88,7 @@ const SignUp: FC = () => {
     <section className="className">
       <div className="container">
         <h2 className="has-text-centered is-size-2 mb-3">SignUp</h2>
-        <form className="form" onSubmit={submitHandler}>
+        <form className="form" onSubmit={signUp}>
           {error && <Message msg={error} type="danger" />}
           <Input
             name="firstName"
@@ -104,10 +125,16 @@ const SignUp: FC = () => {
           />
         </form>
         <div className="is-flex is-flex-direction-row is-justify-content-center mt-6">
-          <button className="button is-large auto mr-6">
+          {/* facebook ログイン実装 */}
+          <button
+            onClick={signUpByFacebook}
+            className="button is-large auto mr-6">
             facebookでログイン
           </button>
-          <button className="button is-large auto">googleでログイン</button>
+          {/* googleログイン実装 */}
+          <button onClick={signUpByGoogle} className="button is-large auto">
+            googleでログイン
+          </button>
         </div>
       </div>
     </section>

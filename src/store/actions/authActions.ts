@@ -56,6 +56,8 @@ export const signUp = (
   };
 };
 
+const signUpByFacebook;
+
 export const getUserById = (
   id: string
 ): ThunkAction<void, RootState, null, AuthAction> => {
