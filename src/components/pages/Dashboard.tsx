@@ -1,7 +1,8 @@
+import firebase from 'firebase';
 import React, { FC, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store';
-import { setSuccess } from '../../store/actions/authActions';
+import { setError, setSuccess } from '../../store/actions/authActions';
 import Message from '../UI/Message';
 
 const DashBoard: FC = () => {
@@ -11,9 +12,14 @@ const DashBoard: FC = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (success) {
-      dispatch(setSuccess(''));
-    }
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user && success) {
+        dispatch(setSuccess(''));
+      } else {
+        dispatch(setError('failed'));
+        console.log('ログイン失敗しているみたい');
+      }
+    });
   }, [success, dispatch]);
 
   return (

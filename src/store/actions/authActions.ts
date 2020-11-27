@@ -63,7 +63,7 @@ export const signUpByGoogle = (
     try {
       // Googleプロバイダオブジェクトのインスタンスを立てる
       const provider = new firebase.auth.GoogleAuthProvider();
-      firebase.auth().useDeviceLanguage();
+      // firebase.auth().useDeviceLanguage();
       await firebase
         .auth()
         .signInWithPopup(provider)
@@ -71,11 +71,11 @@ export const signUpByGoogle = (
           console.log('####res: ', res);
           const user = res.user;
           console.log('######user: ', user);
-          if (res.user) {
+          if (user) {
             const userData: User = {
-              firstName: '',
+              firstName: user.displayName ? user.displayName : '',
               lastName: '',
-              id: res.user.uid,
+              id: user.uid,
               createdAt: firebase.firestore.FieldValue.serverTimestamp(),
             };
             dispatch({ type: SET_USER, payload: userData });
