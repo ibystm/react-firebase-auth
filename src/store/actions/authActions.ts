@@ -14,6 +14,8 @@ import { RootState } from '../index';
 import firebase from 'firebase';
 import { SET_ERROR } from '../types';
 import { facebookProvider, googleProvider } from '../../firebase/config';
+import { ErrorCodes } from '../../types/ErrorCodes';
+import { ErrorMessages } from '../../types/ErrorMessages';
 
 export const signUp = (
   data: SignUpData,
@@ -62,7 +64,7 @@ export const signUpByGoogle = (
 ): ThunkAction<void, RootState, null, AuthAction> => {
   return async (dispatch) => {
     try {
-      firebase
+      await firebase
         .auth()
         .signInWithPopup(googleProvider)
         .then((res) => {
@@ -95,8 +97,9 @@ export const signUpByFacebook = (
   onError: () => void
 ): ThunkAction<void, RootState, null, AuthAction> => {
   return async (dispatch) => {
+    console.log('ちゃんとと大千枝雨?');
     try {
-      firebase
+      await firebase
         .auth()
         .signInWithPopup(facebookProvider)
         .then((res) => {
@@ -119,8 +122,10 @@ export const signUpByFacebook = (
         });
       // firebase.auth().useDeviceLanguage();
     } catch (e) {
-      console.log('message', e.message);
-      console.log('code', e.code);
+      if (e.code === ErrorCodes.USER_ALREADY_EXISTS) {
+        onError();
+        dispatch(setError(ErrorMessages.USER_ALREADY_EXISTS));
+      }
     }
   };
 };
