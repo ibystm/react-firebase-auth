@@ -16,7 +16,6 @@ import {
 import Input from '../UI/input';
 import Message from '../UI/Message';
 import Button from '../UI/Button';
-import { sign } from 'crypto';
 
 const SignUp: FC = () => {
   const [firstName, setFirstName] = useState<string>('');

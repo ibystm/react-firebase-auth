@@ -1,25 +1,23 @@
 import firebase from 'firebase';
 import React, { FC, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { RootState } from '../../store';
 import { setError, setSuccess } from '../../store/actions/authActions';
 import Message from '../UI/Message';
 
 const DashBoard: FC = () => {
+  const history = useHistory();
   const { user, needVerification, success } = useSelector(
     (state: RootState) => state.auth
   );
   const dispatch = useDispatch();
 
-  // userに値は入っているけど、昔の値
-
   useEffect(() => {
-    firebase.auth().onAuthStateChanged((currentUser) => {
-      if (currentUser) {
-        dispatch(setSuccess(''));
-      }
-    });
-  }, []);
+    if (!user) {
+      history.push('/signup');
+    }
+  }, [user]);
 
   return (
     <section className="section">

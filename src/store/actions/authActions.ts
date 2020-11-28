@@ -66,9 +66,8 @@ export const signUpByGoogle = (
         .auth()
         .signInWithPopup(googleProvider)
         .then((res) => {
-          console.log('####res: ', res);
           const user = res.user;
-          console.log('######user: ', user);
+          // register user to DB
           if (user) {
             const userData: User = {
               firstName: user.displayName ? user.displayName : '',
