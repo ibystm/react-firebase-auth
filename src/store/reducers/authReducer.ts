@@ -37,6 +37,7 @@ export default (state = initialState, action: AuthAction) => {
         user: null,
         authenticated: false,
         loading: false,
+        error: '',
       };
     case SET_ERROR:
       return {

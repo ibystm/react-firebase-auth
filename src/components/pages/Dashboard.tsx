@@ -11,16 +11,15 @@ const DashBoard: FC = () => {
   );
   const dispatch = useDispatch();
 
+  // userに値は入っているけど、昔の値
+
   useEffect(() => {
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user && success) {
+    firebase.auth().onAuthStateChanged((currentUser) => {
+      if (currentUser) {
         dispatch(setSuccess(''));
-      } else {
-        dispatch(setError('failed'));
-        console.log('ログイン失敗しているみたい');
       }
     });
-  }, [success, dispatch]);
+  }, []);
 
   return (
     <section className="section">
