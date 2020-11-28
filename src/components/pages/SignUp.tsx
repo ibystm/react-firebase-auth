@@ -11,6 +11,7 @@ import { RootState } from '../../store';
 import {
   setError,
   signUp,
+  signUpByFacebook,
   signUpByGoogle,
 } from '../../store/actions/authActions';
 import Input from '../UI/input';
@@ -48,6 +49,15 @@ const SignUp: FC = () => {
       setLoading(true);
       // dispatch
       dispatch(signUpByGoogle(() => setLoading(false)));
+    },
+    [setLoading, dispatch]
+  );
+
+  const onClickFacebookSignUp = useCallback(
+    (e: FormEvent) => {
+      e.preventDefault();
+      setLoading(true);
+      dispatch(signUpByFacebook(() => setLoading(false)));
     },
     [setLoading, dispatch]
   );
@@ -130,7 +140,7 @@ const SignUp: FC = () => {
         <div className="is-flex is-flex-direction-row is-justify-content-center mt-6">
           {/* facebook ログイン実装 */}
           <button
-            // onClick={signUpByFacebook}
+            onClick={onClickFacebookSignUp}
             className="button is-large auto mr-6">
             facebookでログイン
           </button>

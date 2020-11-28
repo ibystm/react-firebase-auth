@@ -17,4 +17,6 @@ googleProvider.setCustomParameters({
   prompt: 'select_account',
 });
 
+export const facebookProvider = new firebase.auth.FacebookAuthProvider();
+
 export default firebase;

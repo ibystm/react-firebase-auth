@@ -13,7 +13,7 @@ import {
 import { RootState } from '../index';
 import firebase from 'firebase';
 import { SET_ERROR } from '../types';
-import { googleProvider } from '../../firebase/config';
+import { facebookProvider, googleProvider } from '../../firebase/config';
 
 export const signUp = (
   data: SignUpData,
@@ -65,6 +65,40 @@ export const signUpByGoogle = (
       firebase
         .auth()
         .signInWithPopup(googleProvider)
+        .then((res) => {
+          const user = res.user;
+          // register user to DB
+          if (user) {
+            const userData: User = {
+              firstName: user.displayName ? user.displayName : '',
+              lastName: '',
+              id: user.uid,
+              createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+            };
+            firebase
+              .firestore()
+              .collection('/users')
+              .doc(user.uid)
+              .set(userData);
+            dispatch({ type: SET_USER, payload: userData });
+          }
+        });
+      // firebase.auth().useDeviceLanguage();
+    } catch (e) {
+      console.log('message', e.message);
+      console.log('code', e.code);
+    }
+  };
+};
+
+export const signUpByFacebook = (
+  onError: () => void
+): ThunkAction<void, RootState, null, AuthAction> => {
+  return async (dispatch) => {
+    try {
+      firebase
+        .auth()
+        .signInWithPopup(facebookProvider)
         .then((res) => {
           const user = res.user;
           // register user to DB
@@ -145,12 +179,10 @@ export const signOut = (): ThunkAction<void, RootState, null, AuthAction> => {
     try {
       dispatch(setLoading(true));
       await firebase.auth().signOut();
-      console.log('ちゃんとここ通ってる？？？？');
       dispatch({
         type: SIGN_OUT,
       });
     } catch (e) {
-      console.log('signOut 失敗');
       console.log(e);
       dispatch(setLoading(false));
     }
