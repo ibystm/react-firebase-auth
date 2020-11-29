@@ -26,6 +26,7 @@ export const signUp = (
       const res = await firebase
         .auth()
         .createUserWithEmailAndPassword(data.email, data.password);
+
       if (res.user) {
         const userData: User = {
           email: data.email,
